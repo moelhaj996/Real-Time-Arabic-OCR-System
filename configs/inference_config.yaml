@@ -1,0 +1,150 @@
+# Inference Configuration
+
+# Model
+model:
+  checkpoint_path: "models/best_model.pth"
+  model_type: "full"  # full, lite, edge
+  device: "auto"  # auto, cpu, cuda, mps
+
+  # Optimization
+  use_onnx: false
+  onnx_path: "models/model.onnx"
+  use_tensorrt: false
+  tensorrt_path: "models/model.trt"
+
+  # Quantization
+  quantized: false
+  quantization_dtype: "int8"  # int8, float16
+
+# Preprocessing
+preprocessing:
+  # Image processing
+  resize_method: "pad"  # pad, resize, crop
+  target_size: [384, 384]
+  maintain_aspect_ratio: true
+
+  # Enhancement
+  auto_enhance: true
+  denoise: true
+  deskew: true
+  binarize: false
+
+  # CLAHE
+  use_clahe: true
+  clip_limit: 2.0
+  tile_grid_size: [8, 8]
+
+# Text Detection (for images with multiple text regions)
+text_detection:
+  enabled: true
+  detector: "craft"  # craft, east, dbnet
+
+  # Detection parameters
+  confidence_threshold: 0.7
+  nms_threshold: 0.4
+  min_text_size: 10
+  link_threshold: 0.4
+
+  # Processing
+  sort_regions: true
+  sort_direction: "rtl"  # rtl, ltr, auto
+
+# Recognition
+recognition:
+  # Decoding
+  decoding_method: "beam_search"  # greedy, beam_search
+  beam_width: 5
+  length_penalty: 0.6
+
+  # Confidence
+  min_confidence: 0.5
+  temperature: 1.0
+
+  # Batching
+  batch_size: 8
+  max_concurrent: 16
+
+# Post-processing
+postprocessing:
+  # Language model
+  use_language_model: true
+  lm_weight: 0.3
+
+  # Morphology
+  use_morphology: true
+  morphology_lib: "camel_tools"  # camel_tools, farasa
+
+  # Diacritics
+  restore_diacritics: false
+  diacritic_model_path: "models/diacritic_model.pth"
+
+  # Text cleaning
+  remove_spaces: false
+  normalize_arabic: true
+
+  # Error correction
+  use_spell_check: true
+  spell_check_threshold: 0.6
+
+# Real-time Processing
+realtime:
+  # Video stream
+  video_source: 0  # 0 for webcam, or video file path
+  frame_width: 1280
+  frame_height: 720
+  fps: 30
+
+  # Processing
+  process_every_n_frames: 3  # Process every 3rd frame (10 FPS)
+  buffer_size: 10
+
+  # Tracking
+  enable_tracking: true
+  tracking_algorithm: "iou"  # iou, deepsort
+  track_persistence: 10  # frames
+
+  # Temporal smoothing
+  temporal_smoothing: true
+  smoothing_window: 5
+
+  # Display
+  show_confidence: true
+  show_bounding_boxes: true
+  bbox_color: [0, 255, 0]
+  text_color: [255, 255, 255]
+  font_scale: 0.8
+
+# Performance
+performance:
+  # Threading
+  use_threading: true
+  num_threads: 4
+
+  # GPU
+  gpu_memory_fraction: 0.8
+  allow_growth: true
+
+  # Caching
+  use_cache: true
+  cache_size: 1000
+
+  # Profiling
+  enable_profiling: false
+  profile_output: "profile.json"
+
+# Output
+output:
+  # Format
+  format: "json"  # json, txt, xml, hocr
+  include_confidence: true
+  include_bboxes: true
+  include_alternatives: false
+  num_alternatives: 3
+
+  # Visualization
+  save_visualization: false
+  visualization_dir: "output/visualizations"
+
+  # Logging
+  verbose: false
+  log_level: "info"  # debug, info, warning, error
